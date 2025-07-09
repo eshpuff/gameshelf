@@ -22,3 +22,17 @@ class Game(db.Model):
 
     def __repr__(self):
         return f'<Game {self.title}>'
+
+class RecommendedGame(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), unique=True, nullable=False)
+    genre = db.Column(db.String(100), nullable=False)
+    platform = db.Column(db.String(100), nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'genre': self.genre,
+            'platform': self.platform
+        }

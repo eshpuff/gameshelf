@@ -1,9 +1,10 @@
-from flask import Blueprint, request, jsonify
+import random
+from flask import Blueprint, request, jsonify, current_app
 from .db import db
-from .models import User, Game
+from .models import User, Game, RecommendedGame
+import requests
 
 main_bp = Blueprint('main', __name__)
-
 
 # cadastro
 @main_bp.route('/api/signup', methods=['POST'])
@@ -45,7 +46,7 @@ def add_game():
     user_id = data.get('user_id')
 
     if not user_id:
-        return jsonify({"message": "User ID is required"}), 400
+        return jsonify({"message": "Você precisa logar primeiro."}), 400
     
     new_game = Game(
         title=data['title'],
@@ -75,6 +76,38 @@ def get_games(user_id):
     } for game in games]
     return jsonify(result)
 
+# pegar imagens do jogo
+@main_bp.route('')@main_bp.route('/api/search-game-image/<path:game_title>', methods=['GET'])
+def search_game_image(game_title):
+    try:
+        api_key = current_app.config['RAWG_API_KEY']
+        if not api_key:
+            return jsonify({"message": "A chave da API não foi configurada no servidor."}), 500
+
+        url = f"https://api.rawg.io/api/games?key={api_key}&search={game_title}"
+
+        # fazendo requisição pra api
+        response = requests.get(url)
+        response.raise_for_status()
+
+        data = response.json()
+
+        # verifica se a busca retornou alguma coisa
+        if data['results']:
+            # pega a url da imagem de fundo do primeiro resultado
+            image_url = data['results'][0].get('background_image')
+            if image_url:
+                return jsonify({"image_url": image_url})
+            else:
+                return jsonify({"message": "Jogo encontrado, mas sem imagem."}), 404
+        else:
+            return jsonify({"message": "Jogo não encontrado."}), 404
+
+    except requests.exceptions.RequestException as e:
+        return jsonify({"message": f"Erro ao contatar a API de jogos: {e}"}), 503
+    except Exception as e:
+        return jsonify({"message": f"Ocorreu um erro interno: {e}"}), 500
+
 
 # update game
 @main_bp.route('/api/games/<int:game_id>', methods=['PUT'])
@@ -102,6 +135,32 @@ def delete_game(game_id):
     return jsonify({"message": "Jogo deletado com Sucesso"}), 204
 
 from flask import send_from_directory, current_app
+
+# endpoint para pegar todas as recomendações
+@main_bp.route('/api/recommendations', methods=['GET'])
+def get_all_recommendations():
+    all_games = RecommendedGame.query.all()
+    result = [game.to_dict() for game in all_games]
+    return jsonify(result)
+
+# endpoint para pegar UMA recomendação aleatória
+@main_bp.route('/api/recommendations/random/<int:user_id>', methods=['GET'])
+def get_random_recommendation(user_id):
+    user_games_titles = {game.title for game in Game.query.filter_by(user_id=user_id).all()}
+    
+    all_recommendations = RecommendedGame.query.all()
+
+    potential_recommendations = [
+        game for game in all_recommendations if game.title not in user_games_titles
+    ]
+
+    if not potential_recommendations:
+        return jsonify({"message": "Uau! Você já tem todos os jogos da nossa lista de recomendações!"}), 404
+
+    recommended_game = random.choice(potential_recommendations)
+    
+    return jsonify(recommended_game.to_dict())
+
 
 # rota padrão
 @main_bp.route("/")

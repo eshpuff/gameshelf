@@ -1,0 +1,60 @@
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    background-color: #0B0A1E;
+    color: #e0e0e0;
+    padding: 20px;
+}
+
+.welcome-content h1 {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.welcome-content p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    color: #9ab;
+}
+
+.welcome-actions {
+    display: flex;
+    gap: 20px; /* Espaço entre os botões */
+}
+
+.welcome-button {
+    padding: 12px 24px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.welcome-button.primary {
+    background-color: #A259FF;
+    color: #fff;
+}
+
+.welcome-button.primary:hover {
+    background-color: #4B3B69;
+    transform: translateY(-2px);
+}
+
+.welcome-button.secondary {
+    background-color: transparent;
+    border: 2px solid #A259FF;
+    color: #A259FF;
+}
+
+.welcome-button.secondary:hover {
+    background-color: #A259FF;
+    color: #fff;
+    transform: translateY(-2px);
+}
