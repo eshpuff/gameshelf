@@ -1,55 +1,66 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importe o useNavigate
-import axios from 'axios'; // Importe o axios
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Auth.css';
 
 const Auth = () => {
-    // Estado para controlar qual formulário é exibido
+    // --- ESTADOS DO COMPONENTE ---
     const [isLoginView, setIsLoginView] = useState(true);
-
-    // Hooks para o formulário de login
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
-
-    // Hooks para o formulário de cadastro (faremos a lógica depois)
     const [signupUsername, setSignupUsername] = useState('');
     const [signupEmail, setSignupEmail] = useState('');
     const [signupPassword, setSignupPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const [error, setError] = useState(''); // Estado para guardar mensagens de erro
+    // --- FUNÇÕES ---
 
-    const navigate = useNavigate(); // Hook para navegar entre as páginas
-
-    // Função para lidar com o envio do formulário de login
     const handleLogin = async (e) => {
-        e.preventDefault(); // Impede o recarregamento da página
-        setError(''); // Limpa erros anteriores
-
+        e.preventDefault();
+        setError('');
         try {
             const response = await axios.post('http://127.0.0.1:5000/api/login', {
                 email: loginEmail,
                 password: loginPassword,
             });
-
-            // Se o login for bem-sucedido
             const { user_id } = response.data;
-            localStorage.setItem('user_id', user_id); // Guarda o user_id no navegador
-            navigate('/dashboard'); // Redireciona para o dashboard
-
+            localStorage.setItem('user_id', user_id);
+            navigate('/dashboard');
         } catch (err) {
-            // Se houver um erro (ex: credenciais inválidas)
             setError('Email ou senha inválidos. Tente novamente.');
             console.error('Erro no login:', err);
         }
     };
 
-    // Função para o cadastro (vamos implementar depois)
-    const handleSignup = (e) => {
+    /**
+     * Lida com o envio do formulário de cadastro.
+     * AGORA COM A LÓGICA REAL!
+     */
+    const handleSignup = async (e) => {
         e.preventDefault();
-        alert('Funcionalidade de cadastro a ser implementada!');
+        setError('');
+
+        try {
+            // Faz a chamada POST para a API de cadastro do Flask
+            const response = await axios.post('http://127.0.0.1:5000/api/signup', {
+                username: signupUsername,
+                email: signupEmail,
+                password: signupPassword
+            });
+
+            // Mostra a mensagem de sucesso e muda para a tela de login
+            alert(response.data.message); // Ex: "Conta criada com sucesso"
+            setIsLoginView(true); // Muda para a tela de login para o usuário entrar
+
+        } catch (err) {
+            // Se o email já existir ou outro erro ocorrer
+            setError('Não foi possível criar a conta. O email pode já estar em uso.');
+            console.error('Erro no cadastro:', err.response ? err.response.data : err);
+        }
     };
 
-
+    // --- RENDERIZAÇÃO ---
     return (
         <div className="auth-container">
             <div className="auth-card">
@@ -60,46 +71,34 @@ const Auth = () => {
                         {error && <p className="error-message">{error}</p>}
                         <div className="input-group">
                             <label htmlFor="login-email">Email</label>
-                            <input
-                                type="email"
-                                id="login-email"
-                                value={loginEmail}
-                                onChange={(e) => setLoginEmail(e.target.value)}
-                                required
-                            />
+                            <input type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
                         </div>
                         <div className="input-group">
                             <label htmlFor="login-password">Senha</label>
-                            <input
-                                type="password"
-                                id="login-password"
-                                value={loginPassword}
-                                onChange={(e) => setLoginPassword(e.target.value)}
-                                required
-                            />
+                            <input type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
                         </div>
                         <button type="submit" className="auth-button">Entrar</button>
-                        <p className="toggle-view">
-                            Não tem uma conta? <span onClick={() => { setIsLoginView(false); setError(''); }}>Cadastre-se</span>
-                        </p>
+                        <p className="toggle-view">Não tem uma conta? <span onClick={() => { setIsLoginView(false); setError(''); }}>Cadastre-se</span></p>
                     </form>
                 ) : (
                     // Formulário de Cadastro
                     <form onSubmit={handleSignup}>
                         <h2>Cadastro</h2>
-
+                        {error && <p className="error-message">{error}</p>}
+                        <div className="input-group">
+                            <label htmlFor="signup-username">Nome de Usuário</label>
+                            <input type="text" value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} required />
+                        </div>
                         <div className="input-group">
                             <label htmlFor="signup-email">Email</label>
-                            <input type="email" id="signup-email" required />
+                            <input type="email" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} required />
                         </div>
                         <div className="input-group">
                             <label htmlFor="signup-password">Senha</label>
-                            <input type="password" id="signup-password" required />
+                            <input type="password" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} required />
                         </div>
                         <button type="submit" className="auth-button">Criar Conta</button>
-                        <p className="toggle-view">
-                            Já tem uma conta? <span onClick={() => { setIsLoginView(true); setError(''); }}>Faça login</span>
-                        </p>
+                        <p className="toggle-view">Já tem uma conta? <span onClick={() => { setIsLoginView(true); setError(''); }}>Faça login</span></p>
                     </form>
                 )}
             </div>

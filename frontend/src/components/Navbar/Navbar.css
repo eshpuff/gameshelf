@@ -1,0 +1,33 @@
+.navbar {
+    width: 100%;
+    padding: 1rem 2rem;
+    background-color: #1A132F;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-logout {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #A259FF;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.navbar-logout:hover {
+    background-color: #4B3B69;
+}

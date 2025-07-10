@@ -9,7 +9,13 @@ main_bp = Blueprint('main', __name__)
 # cadastro
 @main_bp.route('/api/signup', methods=['POST'])
 def signup():
-    data = request.json
+    data = request.get_json() 
+
+    print(f"Dados recebidos no /api/signup: {data}")
+
+    if not data:
+        return jsonify({"message": "Nenhum dado enviado na requisição"}), 400
+
     user = User.query.filter_by(email=data['email']).first()
     if user:
         return jsonify({"message": "Esse email já possuí conta"}), 400
@@ -26,7 +32,13 @@ def signup():
 # login
 @main_bp.route('/api/login', methods=['POST'])
 def login():
-    data = request.json
+    data = request.get_json()
+
+    print(f"Dados recebidos no /api/login: {data}")
+
+    if not data:
+        return jsonify({"message": "Nenhum dado enviado na requisição"}), 400
+    
     user = User.query.filter_by(email=data['email']).first()
     
     if not user:
@@ -36,30 +48,6 @@ def login():
         return jsonify({"message": "Credenciais Invalidas"}), 401
 
     return jsonify({"message": "Login", "user_id": user.id})
-
-# add game
-@main_bp.route('/api/games', methods=['POST'])
-def add_game():
-    data = request.json
-    print(data)
-
-    user_id = data.get('user_id')
-
-    if not user_id:
-        return jsonify({"message": "Você precisa logar primeiro."}), 400
-    
-    new_game = Game(
-        title=data['title'],
-        genre=data['genre'],
-        platform=data['platform'],
-        rating=data.get('rating'),
-        time=data.get('time'),
-        isPlatinum=data.get('isPlatinum', False),
-        user_id=user_id
-    )
-    db.session.add(new_game)
-    db.session.commit()
-    return jsonify({"message": "Jogo Adicionado com Sucesso"}), 201
 
 # pega os jogos do usuário
 @main_bp.route('/api/games/<int:user_id>', methods=['GET'])
@@ -77,7 +65,7 @@ def get_games(user_id):
     return jsonify(result)
 
 # pegar imagens do jogo
-@main_bp.route('')@main_bp.route('/api/search-game-image/<path:game_title>', methods=['GET'])
+@main_bp.route('/api/search-game-image/<path:game_title>', methods=['GET'])
 def search_game_image(game_title):
     try:
         api_key = current_app.config['RAWG_API_KEY']
