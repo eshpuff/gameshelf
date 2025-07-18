@@ -96,12 +96,35 @@ def search_game_image(game_title):
     except Exception as e:
         return jsonify({"message": f"Ocorreu um erro interno: {e}"}), 500
 
+# adiciona jogo
+@main_bp.route('/api/games', methods=['POST'])
+def add_game():
+    data = request.get_json()
+    print(f"Adicionando novo jogo: {data}")
 
-# update game
+    user_id = data.get('user_id')
+
+    if not user_id:
+        return jsonify({"message": "User ID is required"}), 400
+    
+    new_game = Game(
+        title=data['title'],
+        genre=data['genre'],
+        platform=data['platform'],
+        rating=data.get('rating'),
+        time=data.get('time'),
+        isPlatinum=data.get('isPlatinum', False),
+        user_id=user_id
+    )
+    db.session.add(new_game)
+    db.session.commit()
+    return jsonify({"message": "Jogo Adicionado com Sucesso"}), 201
+
+# atualiza jogo
 @main_bp.route('/api/games/<int:game_id>', methods=['PUT'])
 def update_game(game_id):
     game = Game.query.get_or_404(game_id)
-    data = request.json
+    data = request.get_json() # <--- MUDANÇA AQUI
 
     game.title = data['title']
     game.genre = data['genre']
@@ -113,7 +136,7 @@ def update_game(game_id):
     db.session.commit()
     return jsonify({"message": "Jogo atualizado com sucesso"})
 
-# delete game
+# deleta jogo
 @main_bp.route('/api/games/<int:game_id>', methods=['DELETE'])
 def delete_game(game_id):
     game = Game.query.get_or_404(game_id)

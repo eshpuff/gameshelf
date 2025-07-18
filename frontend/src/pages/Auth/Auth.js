@@ -4,7 +4,7 @@ import axios from 'axios';
 import './Auth.css';
 
 const Auth = () => {
-    // --- ESTADOS DO COMPONENTE ---
+    // estados do componente
     const [isLoginView, setIsLoginView] = useState(true);
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
@@ -13,8 +13,6 @@ const Auth = () => {
     const [signupPassword, setSignupPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-
-    // --- FUNÇÕES ---
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -32,35 +30,28 @@ const Auth = () => {
             console.error('Erro no login:', err);
         }
     };
-
-    /**
-     * Lida com o envio do formulário de cadastro.
-     * AGORA COM A LÓGICA REAL!
-     */
     const handleSignup = async (e) => {
         e.preventDefault();
         setError('');
 
         try {
-            // Faz a chamada POST para a API de cadastro do Flask
+            // faz a chamada post para a api de cadastro no flash
             const response = await axios.post('http://127.0.0.1:5000/api/signup', {
                 username: signupUsername,
                 email: signupEmail,
                 password: signupPassword
             });
 
-            // Mostra a mensagem de sucesso e muda para a tela de login
-            alert(response.data.message); // Ex: "Conta criada com sucesso"
-            setIsLoginView(true); // Muda para a tela de login para o usuário entrar
+            // mostra a mensagem de sucesso e muda para a tela de login
+            alert(response.data.message);
+            setIsLoginView(true); // muda para a tela de login para o usuário entrar
 
         } catch (err) {
-            // Se o email já existir ou outro erro ocorrer
             setError('Não foi possível criar a conta. O email pode já estar em uso.');
             console.error('Erro no cadastro:', err.response ? err.response.data : err);
         }
     };
 
-    // --- RENDERIZAÇÃO ---
     return (
         <div className="auth-container">
             <div className="auth-card">
@@ -81,6 +72,7 @@ const Auth = () => {
                         <p className="toggle-view">Não tem uma conta? <span onClick={() => { setIsLoginView(false); setError(''); }}>Cadastre-se</span></p>
                     </form>
                 ) : (
+                    
                     // Formulário de Cadastro
                     <form onSubmit={handleSignup}>
                         <h2>Cadastro</h2>

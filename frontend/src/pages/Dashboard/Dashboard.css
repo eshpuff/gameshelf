@@ -20,7 +20,6 @@
 
 .games-grid {
     display: grid;
-    /* Cria colunas de no mínimo 200px, preenchendo o espaço */
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
 }
@@ -61,4 +60,26 @@
 
 .add-game-button:hover {
     background-color: #4B3B69;
+}
+
+.add-game-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #A259FF;
+    color: white;
+    font-size: 2.5rem;
+    line-height: 55px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.add-game-fab:hover {
+    background-color: #4B3B69;
+    transform: rotate(90deg);
 }

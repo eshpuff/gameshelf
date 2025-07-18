@@ -25,7 +25,7 @@
 
 .welcome-actions {
     display: flex;
-    gap: 20px; /* Espaço entre os botões */
+    gap: 20px;
 }
 
 .welcome-button {

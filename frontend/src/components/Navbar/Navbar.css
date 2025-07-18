@@ -11,10 +11,33 @@
     z-index: 1000;
 }
 
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
 .navbar-brand {
     color: #FFFFFF;
     font-size: 1.5rem;
     font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar-link {
+    color: #c0c0c0;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navbar-link:hover {
+    color: #A259FF;
 }
 
 .navbar-logout {

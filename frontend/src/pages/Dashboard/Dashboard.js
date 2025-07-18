@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import GameCard from '../../components/GameCard/GameCard';
@@ -7,7 +8,7 @@ import './Dashboard.css';
 
 const Dashboard = () => {
     const [games, setGames] = useState([]);
-    const [username, setUsername] = useState(''); // Vamos guardar o nome do usuário
+    const [username, setUsername] = useState(''); // guarda o nome do usuário
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -15,7 +16,7 @@ const Dashboard = () => {
         const userId = localStorage.getItem('user_id');
 
         if (!userId) {
-            navigate('/auth'); // Se não estiver logado, vai para a página de login
+            navigate('/auth'); 
             return;
         }
 
@@ -51,10 +52,13 @@ const Dashboard = () => {
                 ) : (
                     <div className="empty-shelf">
                         <p>Sua estante está vazia.</p>
-                        <button className="add-game-button">Adicionar meu primeiro jogo</button>
+                        <Link to="/new-game" className='add-game-button'>Adicionar meu primeiro jogo</Link>
                     </div>
                 )}
             </main>
+            <Link to="/new-game" className="add-game-fab">
+            +
+            </Link>
         </div>
     );
 };

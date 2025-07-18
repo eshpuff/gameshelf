@@ -1,4 +1,5 @@
 import React, { useState, useEffect, use } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './GameCard.css';
 
@@ -31,6 +32,7 @@ const GameCard = ({ game }) => {
         <div className="game-card" style= {{ backgroundImage: `url(${imageUrl})` }}>
             <div className="game-card-overlay">
                 <h3 className="game-card-title">{game.title}</h3>
+                <Link to={`/edit-game/${game.id}`} state={{ game: game}} className="edit-game-button"> Editar </Link>
             </div>
         </div>
     );
