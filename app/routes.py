@@ -59,8 +59,8 @@ def get_games(user_id):
         'genre': game.genre,
         'platform': game.platform,
         'rating': game.rating,
-        'time': game.time,
-        'isPlatinum': game.isPlatinum
+        'playtime': game.time,
+        'platinumed': game.isPlatinum
     } for game in games]
     return jsonify(result)
 
@@ -112,8 +112,8 @@ def add_game():
         genre=data['genre'],
         platform=data['platform'],
         rating=data.get('rating'),
-        time=data.get('time'),
-        isPlatinum=data.get('isPlatinum', False),
+        time=data.get('playtime'),
+        isPlatinum=data.get('platinumed', False),
         user_id=user_id
     )
     db.session.add(new_game)
@@ -138,8 +138,8 @@ def update_game(game_id):
     game.genre = data['genre']
     game.platform = data['platform']
     game.rating = data.get('rating', game.rating)
-    game.time = data.get('time', game.time)
-    game.isPlatinum = data.get('isPlatinum', game.isPlatinum)
+    game.time = data.get('playtime', game.time)
+    game.isPlatinum = data.get('platinumed', game.isPlatinum)
 
     db.session.commit()
     return jsonify({"message": "Jogo atualizado com sucesso"})
@@ -162,7 +162,7 @@ def get_all_recommendations():
     result = [game.to_dict() for game in all_games]
     return jsonify(result)
 
-# endpoint para pegar UMA recomendação aleatória
+# endpoint para pegar uma recomedaçao aleatoria
 @main_bp.route('/api/recommendations/random/<int:user_id>', methods=['GET'])
 def get_random_recommendation(user_id):
     user_games_titles = {game.title for game in Game.query.filter_by(user_id=user_id).all()}
