@@ -118,7 +118,15 @@ def add_game():
     )
     db.session.add(new_game)
     db.session.commit()
-    return jsonify({"message": "Jogo Adicionado com Sucesso"}), 201
+    return jsonify({
+        'id': new_game.id,
+        'title': new_game.title,
+        'genre': new_game.genre,
+        'platform': new_game.platform,
+        'rating': new_game.rating,
+        'playtime': new_game.time,
+        'platinumed': new_game.isPlatinum
+    }), 201
 
 # atualiza jogo
 @main_bp.route('/api/games/<int:game_id>', methods=['PUT'])

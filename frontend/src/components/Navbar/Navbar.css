@@ -1,11 +1,13 @@
 .navbar {
     width: 100%;
     padding: 1rem 2rem;
-    background-color: #1A132F;
+    background-color: rgba(26, 19, 47, 0.7);
+    backdrop-filter: blur(10px);
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(162, 89, 255, 0.2);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -22,6 +24,11 @@
     font-size: 1.5rem;
     font-weight: bold;
     text-decoration: none;
+    transition: color 0.3s;
+}
+
+.navbar-brand:hover {
+    color: #A259FF;
 }
 
 .navbar-links {
@@ -33,24 +40,32 @@
     color: #c0c0c0;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
 }
 
 .navbar-link:hover {
+    color: #fff;
+}
+
+.navbar-link.active {
     color: #A259FF;
+    border-bottom-color: #A259FF;
 }
 
 .navbar-logout {
     padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    background-color: #A259FF;
-    color: #fff;
+    border: 1px solid #A259FF;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #A259FF;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
 }
 
 .navbar-logout:hover {
-    background-color: #4B3B69;
+    background-color: #A259FF;
+    color: #fff;
 }

@@ -26,8 +26,8 @@ const EditGame = () => {
             setGenre(gameData.genre);
             setPlatform(gameData.platform);
             setRating(gameData.rating || '');
-            setTime(gameData.time || '');
-            setIsPlatinum(gameData.isPlatinum || false);
+            setTime(gameData.playtime || '');
+            setIsPlatinum(gameData.platinumed || false);
         } else {
             setError("Dados do jogo não encontrados. Volte para o Dashboard.");
         }
@@ -43,7 +43,7 @@ const EditGame = () => {
             platform,
             rating: rating ? parseFloat(rating) : null,
             time: time ? parseInt(time, 10) : null,
-            isPlatinum,
+            isPlatinum
         };
 
         try {
@@ -76,8 +76,8 @@ const EditGame = () => {
                         <input type="text" id="platform" value={platform} onChange={(e) => setPlatform(e.target.value)} required />
                     </div>
                     <div className="input-group">
-                        <label htmlFor="rating">Nota (0 a 10)</label>
-                        <input type="number" id="rating" step="0.5" min="0" max="10" value={rating} onChange={(e) => setRating(e.target.value)} />
+                        <label htmlFor="rating">Nota (0 a 5)</label>
+                        <input type="number" id="rating" step="0.5" min="0" max="5" value={rating} onChange={(e) => setRating(e.target.value)} />
                     </div>
                     <div className="input-group">
                         <label htmlFor="time">Tempo de Jogo (em horas)</label>

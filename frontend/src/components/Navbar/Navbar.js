@@ -1,6 +1,5 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
-import { Link,useNavbar } from 'react-router-dom';
+import { useNavigate, NavLink, Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -8,7 +7,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('user_id');
-        navigate('/login');
+        navigate('/auth');
     };
 
     return (
@@ -16,7 +15,12 @@ const Navbar = () => {
             <div className="navbar-left">
                 <Link to="/dashboard" className="navbar-brand">GameShelf</Link>
                 <div className="navbar-links">
-                    <Link to="/recommendations" className="navbar-link">Recomendações</Link>
+                    <NavLink 
+                      to="/recommendations" 
+                      className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}
+                    >
+                        Recomendações
+                    </NavLink>
                 </div>
             </div>
             <button onClick={handleLogout} className="navbar-logout">Logout</button>
