@@ -27,8 +27,8 @@ const EditGame = () => {
             setPlaytime(gameData.playtime || '');
             setIsPlatinum(gameData.platinumed || false);
         } else {
-            console.error("Dados do jogo não encontrados no state da navegação.");
-            setError("Dados do jogo não encontrados. Volte para o Dashboard.");
+            console.error("dados do jogo não encontrados no state da navegação.");
+            setError("dados do jogo não encontrados.");
         }
     }, [location.state]);
 
@@ -50,8 +50,8 @@ const EditGame = () => {
             await axios.put(`http://127.0.0.1:5000/api/games/${gameId}`, updatedGame);
             navigate('/dashboard');
         } catch (err) {
-            console.error("Erro ao atualizar o jogo:", err);
-            setError("Não foi possível atualizar o jogo. Tente novamente.");
+            console.error("erro ao atualizar o jogo:", err);
+            setError("não foi possível atualizar o jogo. tente novamente.");
         } finally {
             setIsSubmitting(false);
         }
@@ -68,7 +68,7 @@ const EditGame = () => {
                     className="w-full max-w-2xl bg-slate-800 p-8 rounded-xl shadow-2xl shadow-black/20 border border-slate-700"
                 >
                     <h2 className="text-3xl font-bold text-white text-center mb-6">
-                        Editar Jogo
+                        editar jogo
                     </h2>
 
                     {error && (
@@ -80,26 +80,26 @@ const EditGame = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-6">
                             <div>
-                                <label htmlFor="title" className="block text-sm font-medium text-slate-300 mb-2">Título</label>
+                                <label htmlFor="title" className="block text-sm font-medium text-slate-300 mb-2">título</label>
                                 <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} className={inputStyle} required />
                             </div>
                             <div>
-                                <label htmlFor="genre" className="block text-sm font-medium text-slate-300 mb-2">Gênero</label>
+                                <label htmlFor="genre" className="block text-sm font-medium text-slate-300 mb-2">gênero</label>
                                 <input type="text" id="genre" value={genre} onChange={(e) => setGenre(e.target.value)} className={inputStyle} required />
                             </div>
                             <div>
-                                <label htmlFor="platform" className="block text-sm font-medium text-slate-300 mb-2">Plataforma</label>
+                                <label htmlFor="platform" className="block text-sm font-medium text-slate-300 mb-2">plataforma</label>
                                 <input type="text" id="platform" value={platform} onChange={(e) => setPlatform(e.target.value)} className={inputStyle} required />
                             </div>
                         </div>
                         
                         <div className="space-y-6">
                             <div>
-                                <label htmlFor="rating" className="block text-sm font-medium text-slate-300 mb-2">Nota (0 a 5)</label>
+                                <label htmlFor="rating" className="block text-sm font-medium text-slate-300 mb-2">nota (0 a 5)</label>
                                 <input type="number" id="rating" step="0.5" min="0" max="5" value={rating} onChange={(e) => setRating(e.target.value)} className={inputStyle} />
                             </div>
                             <div>
-                                <label htmlFor="playtime" className="block text-sm font-medium text-slate-300 mb-2">Tempo de Jogo (horas)</label>
+                                <label htmlFor="playtime" className="block text-sm font-medium text-slate-300 mb-2">tempo de jogo (horas)</label>
                                 <input type="number" id="playtime" min="0" value={playtime} onChange={(e) => setPlaytime(e.target.value)} className={inputStyle} />
                             </div>
                             <div className="flex items-center pt-2">
@@ -110,7 +110,7 @@ const EditGame = () => {
                                     onChange={(e) => setIsPlatinum(e.target.checked)}
                                     className="h-5 w-5 bg-slate-700 border-slate-600 rounded text-purple-500 focus:ring-purple-500"
                                 />
-                                <label htmlFor="isPlatinum" className="ml-3 text-sm font-medium text-slate-300">Platinado / 100% Completo?</label>
+                                <label htmlFor="isPlatinum" className="ml-3 text-sm font-medium text-slate-300">platinado?</label>
                             </div>
                         </div>
                     </div>
@@ -121,14 +121,14 @@ const EditGame = () => {
                             onClick={() => navigate('/dashboard')}
                             className="px-6 py-2 rounded-lg text-white bg-slate-600 hover:bg-slate-500 transition-colors"
                         >
-                            Cancelar
+                            cancelar
                         </button>
                         <button 
                             type="submit" 
                             disabled={isSubmitting}
                             className="px-6 py-2 rounded-lg font-semibold text-white bg-purple-600 hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-wait"
                         >
-                            {isSubmitting ? 'Salvando...' : 'Salvar Alterações'}
+                            {isSubmitting ? 'salvando...' : 'salvar alterações'}
                         </button>
                     </div>
                 </form>

@@ -24,7 +24,7 @@ const RecommendationsPage = () => {
                 const response = await axios.get('http://127.0.0.1:5000/api/recommendations');
                 setRecommendations(response.data);
             } catch (error) {
-                console.error("Erro ao buscar recomendações:", error);
+                console.error("erro ao buscar recomendações:", error);
             } finally {
                 setLoading(false);
             }
@@ -51,15 +51,13 @@ const RecommendationsPage = () => {
         try {
             await axios.post('http://127.0.0.1:5000/api/games', newGame);
             setFeedback({ type: 'success', message: `"${game.title}" adicionado!`, id: game.id });
-            // Remove a recomendação da lista para o usuário não adicionar de novo
             setRecommendations(prev => prev.filter(r => r.id !== game.id));
         } catch (error) {
-            console.error("Erro ao adicionar jogo da recomendação:", error);
-            const errorMessage = error.response?.data?.error || "Jogo já existe na sua estante.";
+            console.error("erro ao adicionar jogo da recomendação:", error);
+            const errorMessage = error.response?.data?.error || "parece que você ja jogou esse jogo antes!";
             setFeedback({ type: 'error', message: errorMessage, id: game.id });
         } finally {
             setAddingId(null);
-            // Limpa a mensagem de feedback depois de alguns segundos
             setTimeout(() => setFeedback({}), 3000);
         }
     };
@@ -71,7 +69,7 @@ const RecommendationsPage = () => {
                 <div className="flex-grow flex items-center justify-center">
                     <div className="flex items-center gap-3 text-xl">
                         <FaSpinner className="animate-spin" />
-                        <span>Carregando Recomendações...</span>
+                        <span>carregando Recomendações...</span>
                     </div>
                 </div>
             </div>
@@ -84,10 +82,10 @@ const RecommendationsPage = () => {
             <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="mb-8">
                     <h2 className="text-3xl font-bold text-white border-l-4 border-purple-500 pl-4">
-                        Jogos Recomendados
+                        jogos recomendados
                     </h2>
                     <p className="text-slate-400 mt-2 pl-4">
-                        Adicione novos títulos à sua estante com um clique.
+                        aqui estão algumas sugestões do gameshelf para você explorar!
                     </p>
                 </div>
 

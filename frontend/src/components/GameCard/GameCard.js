@@ -30,7 +30,8 @@ const GameCard = ({ game, onDelete }) => {
                     setImageUrl(response.data.image_url);
                 }
             } catch (error) {
-                console.error('Não foi possível buscar imagem para:', game.title, error);
+                console.error('não foi possível buscar imagem para:', game.title, error);
+                setImageUrl('/ops.png');
             } finally {
                 setLoading(false);
             }
@@ -41,7 +42,7 @@ const GameCard = ({ game, onDelete }) => {
     const handleDeleteClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (window.confirm(`Tem certeza que deseja excluir "${game.title}"?`)) {
+        if (window.confirm(`tem certeza que deseja excluir "${game.title}"?`)) {
             onDelete(game.id);
         }
     };
@@ -60,7 +61,6 @@ const GameCard = ({ game, onDelete }) => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent" />
 
-            {/* Conteúdo do Card */}
             <div className="relative flex flex-col justify-end h-full p-4 text-white">
                 <h3 className="text-lg font-bold leading-tight drop-shadow-md transition-transform duration-300 transform group-hover:-translate-y-1">
                     {title}
@@ -81,7 +81,7 @@ const GameCard = ({ game, onDelete }) => {
                         {platinumed && (
                             <div className="flex items-center gap-2 text-yellow-400 font-semibold">
                                 <FaTrophy />
-                                <span>Platinado</span>
+                                <span>platinado!</span>
                             </div>
                         )}
                     </div>
@@ -98,14 +98,14 @@ const GameCard = ({ game, onDelete }) => {
                     to={`/edit-game/${id}`}
                     state={{ game: game }}
                     className="flex items-center justify-center w-9 h-9 bg-blue-500/80 hover:bg-blue-500 rounded-full transition-colors"
-                    title="Editar Jogo"
+                    title="editar jogo"
                 >
                     <FaEdit />
                 </Link>
                 <button
                     onClick={handleDeleteClick}
                     className="flex items-center justify-center w-9 h-9 bg-red-600/80 hover:bg-red-600 rounded-full transition-colors"
-                    title="Excluir Jogo"
+                    title="excluir jogo"
                 >
                     <FaTrash />
                 </button>

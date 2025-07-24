@@ -29,7 +29,7 @@ const Auth = () => {
             localStorage.setItem('user_id', user_id);
             navigate('/dashboard');
         } catch (err) {
-            setError('Email ou senha inválidos. Tente novamente.');
+            setError('email ou senha inválidos. tente novamente.');
             console.error('Erro no login:', err);
         } finally {
             setIsSubmitting(false);
@@ -47,7 +47,7 @@ const Auth = () => {
                 email: signupEmail,
                 password: signupPassword
             });
-            setSuccessMessage(response.data.message + ' Você já pode fazer o login.');
+            setSuccessMessage(response.data.message + ' você já pode fazer o login.');
             setTimeout(() => {
                 setIsLoginView(true);
                 setSignupUsername('');
@@ -56,7 +56,7 @@ const Auth = () => {
                 setSuccessMessage('');
             }, 3000);
         } catch (err) {
-            setError('Não foi possível criar a conta. O email pode já estar em uso.');
+            setError('não foi possível criar a conta. o user ou o email pode já estar em uso.');
             console.error('Erro no cadastro:', err.response ? err.response.data : err);
         } finally {
             setIsSubmitting(false);
@@ -77,7 +77,7 @@ const Auth = () => {
             <div className="w-full max-w-md bg-slate-800/80 backdrop-blur-sm p-8 rounded-xl shadow-2xl shadow-black/30 border border-slate-700">
                 <form onSubmit={isLoginView ? handleLogin : handleSignup}>
                     <h2 className="text-3xl font-bold text-white text-center mb-6">
-                        {isLoginView ? 'Login' : 'Crie sua Conta'}
+                        {isLoginView ? 'login' : 'crie sua conta'}
                     </h2>
 
                     {error && <p className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded-lg mb-6 text-center">{error}</p>}
@@ -87,27 +87,27 @@ const Auth = () => {
                         {!isLoginView && (
                             <div className="relative">
                                 <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                                <input type="text" placeholder="Nome de Usuário" value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} className={inputStyle} required />
+                                <input type="text" placeholder="nome de usuário" value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} className={inputStyle} required />
                             </div>
                         )}
                         <div className="relative">
                             <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                            <input type="email" placeholder="Email" value={isLoginView ? loginEmail : signupEmail} onChange={(e) => isLoginView ? setLoginEmail(e.target.value) : setSignupEmail(e.target.value)} className={inputStyle} required />
+                            <input type="email" placeholder="email" value={isLoginView ? loginEmail : signupEmail} onChange={(e) => isLoginView ? setLoginEmail(e.target.value) : setSignupEmail(e.target.value)} className={inputStyle} required />
                         </div>
                         <div className="relative">
                             <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                            <input type="password" placeholder="Senha" value={isLoginView ? loginPassword : signupPassword} onChange={(e) => isLoginView ? setLoginPassword(e.target.value) : setSignupPassword(e.target.value)} className={inputStyle} required />
+                            <input type="password" placeholder="senha" value={isLoginView ? loginPassword : signupPassword} onChange={(e) => isLoginView ? setLoginPassword(e.target.value) : setSignupPassword(e.target.value)} className={inputStyle} required />
                         </div>
                     </div>
 
                     <button type="submit" disabled={isSubmitting} className="w-full mt-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-lg transition-all duration-300 hover:bg-purple-700 disabled:opacity-50 disabled:cursor-wait">
-                        {isSubmitting ? 'Processando...' : (isLoginView ? 'Entrar' : 'Criar Conta')}
+                        {isSubmitting ? 'processando...' : (isLoginView ? 'Entrar' : 'criar conta')}
                     </button>
 
                     <p className="text-center mt-6 text-sm text-slate-400">
-                        {isLoginView ? 'Não tem uma conta?' : 'Já tem uma conta?'}
+                        {isLoginView ? 'não tem uma conta?' : 'já tem uma conta?'}
                         <button type="button" onClick={toggleView} className="font-semibold text-purple-400 hover:underline ml-2">
-                            {isLoginView ? 'Cadastre-se' : 'Faça login'}
+                            {isLoginView ? 'cadastre-se' : 'faça login'}
                         </button>
                     </p>
                 </form>

@@ -4,13 +4,12 @@ import Navbar from '../../components/Navbar/Navbar';
 import axios from 'axios';
 
 const NewGame = () => {
-    // Nomes dos estados corrigidos para consistência
     const [title, setTitle] = useState('');
     const [genre, setGenre] = useState('');
     const [platform, setPlatform] = useState('');
     const [rating, setRating] = useState('');
-    const [playtime, setPlaytime] = useState(''); // CORRIGIDO de 'time'
-    const [platinumed, setPlatinumed] = useState(false); // CORRIGIDO de 'isPlatinum'
+    const [playtime, setPlaytime] = useState('');
+    const [platinumed, setPlatinumed] = useState(false);
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -23,25 +22,24 @@ const NewGame = () => {
 
         const userId = localStorage.getItem('user_id');
         if (!userId) {
-            setError("Você precisa estar logado para adicionar um jogo.");
+            setError("você precisa estar logado para adicionar um jogo.");
             setIsSubmitting(false);
             return;
         }
 
-        // Payload corrigido para enviar os nomes corretos para a API
         const newGame = {
             title,
             genre,
             platform,
             rating: rating ? parseFloat(rating) : null,
-            playtime: playtime ? parseInt(playtime, 10) : null, // CORRIGIDO
+            playtime: playtime ? parseInt(playtime, 10) : null,
             platinumed, // CORRIGIDO
             user_id: parseInt(userId, 10)
         };
 
         try {
             await axios.post('http://127.0.0.1:5000/api/games', newGame);
-            navigate('/dashboard'); // Redireciona para o dashboard em caso de sucesso
+            navigate('/dashboard');
         } catch (err) {
             console.error("Erro ao adicionar o jogo:", err);
             setError("Não foi possível adicionar o jogo. Tente novamente.");
@@ -50,7 +48,6 @@ const NewGame = () => {
         }
     };
 
-    // Estilos de input reutilizáveis
     const inputStyle = "w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors";
 
     return (
@@ -62,7 +59,7 @@ const NewGame = () => {
                     className="w-full max-w-2xl bg-slate-800 p-8 rounded-xl shadow-2xl shadow-black/20 border border-slate-700"
                 >
                     <h2 className="text-3xl font-bold text-white text-center mb-6">
-                        Adicionar Novo Jogo
+                        adicionar novo jogo
                     </h2>
 
                     {error && (
@@ -72,30 +69,28 @@ const NewGame = () => {
                     )}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Coluna da Esquerda */}
                         <div className="space-y-6">
                             <div>
-                                <label htmlFor="title" className="block text-sm font-medium text-slate-300 mb-2">Título</label>
+                                <label htmlFor="title" className="block text-sm font-medium text-slate-300 mb-2">título</label>
                                 <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} className={inputStyle} required />
                             </div>
                             <div>
-                                <label htmlFor="genre" className="block text-sm font-medium text-slate-300 mb-2">Gênero</label>
+                                <label htmlFor="genre" className="block text-sm font-medium text-slate-300 mb-2">gênero</label>
                                 <input type="text" id="genre" value={genre} onChange={(e) => setGenre(e.target.value)} className={inputStyle} required />
                             </div>
                             <div>
-                                <label htmlFor="platform" className="block text-sm font-medium text-slate-300 mb-2">Plataforma</label>
+                                <label htmlFor="platform" className="block text-sm font-medium text-slate-300 mb-2">plataforma</label>
                                 <input type="text" id="platform" value={platform} onChange={(e) => setPlatform(e.target.value)} className={inputStyle} required />
                             </div>
                         </div>
 
-                        {/* Coluna da Direita */}
                         <div className="space-y-6">
                             <div>
-                                <label htmlFor="rating" className="block text-sm font-medium text-slate-300 mb-2">Nota (0 a 5)</label>
+                                <label htmlFor="rating" className="block text-sm font-medium text-slate-300 mb-2">nota (0 a 5)</label>
                                 <input type="number" id="rating" step="0.5" min="0" max="5" value={rating} onChange={(e) => setRating(e.target.value)} className={inputStyle} />
                             </div>
                             <div>
-                                <label htmlFor="playtime" className="block text-sm font-medium text-slate-300 mb-2">Tempo de Jogo (horas)</label>
+                                <label htmlFor="playtime" className="block text-sm font-medium text-slate-300 mb-2">tempo de jogo (horas)</label>
                                 <input type="number" id="playtime" min="0" value={playtime} onChange={(e) => setPlaytime(e.target.value)} className={inputStyle} />
                             </div>
                             <div className="flex items-center pt-2">
@@ -106,26 +101,25 @@ const NewGame = () => {
                                     onChange={(e) => setPlatinumed(e.target.checked)}
                                     className="h-5 w-5 bg-slate-700 border-slate-600 rounded text-purple-500 focus:ring-purple-500"
                                 />
-                                <label htmlFor="platinumed" className="ml-3 text-sm font-medium text-slate-300">Platinado / 100% Completo?</label>
+                                <label htmlFor="platinumed" className="ml-3 text-sm font-medium text-slate-300">platinado?</label>
                             </div>
                         </div>
                     </div>
 
-                    {/* Botões de Ação */}
                     <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-slate-700">
                         <button 
                             type="button" 
                             onClick={() => navigate('/dashboard')}
                             className="px-6 py-2 rounded-lg text-white bg-slate-600 hover:bg-slate-500 transition-colors"
                         >
-                            Cancelar
+                            cancelar
                         </button>
                         <button 
                             type="submit" 
                             disabled={isSubmitting}
                             className="px-6 py-2 rounded-lg font-semibold text-white bg-purple-600 hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-wait"
                         >
-                            {isSubmitting ? 'Adicionando...' : 'Adicionar Jogo'}
+                            {isSubmitting ? 'adicionando...' : 'adicionar jogo'}
                         </button>
                     </div>
                 </form>
