@@ -150,7 +150,7 @@ const Dashboard = () => {
             <Link
                 to="/new-game"
                 className="fixed bottom-6 right-6 w-14 h-14 bg-purple-600 text-white rounded-full flex items-center justify-center shadow-xl transition-all duration-300 hover:bg-purple-700 hover:scale-110 hover:rotate-90"
-                title="Adicionar Novo Jogo"
+                title="adicionar novo jogo"
             >
                 <FaPlus className="text-2xl" />
             </Link>
